@@ -21,17 +21,14 @@ void setup(){
     //PC13
     GPIOC->CRH      &=     ~( 0xF << 20 );
     GPIOC->CRH      |=      ( 0x1 << 20 );
-    GPIOC->BSRR     |=      ( 0x1 << 13 );
 
     //PC14
     GPIOC->CRH      &=     ~( 0xF << 24 );
     GPIOC->CRH      |=      ( 0x1 << 24 );
-    GPIOC->BSRR     |=      ( 0x1 << 14 );
 
     //PC15
     GPIOC->CRH      &=     ~( 0xF << 28 );
     GPIOC->CRH      |=      ( 0x1 << 28 );
-    GPIOC->BSRR     |=      ( 0x1 << 15 );
 
     /*Input ports config*/
 
@@ -54,23 +51,29 @@ void setup(){
 void loop(){
     /*PC13 -- PA4*/
     if( (GPIOA->IDR & (0X1 << 4)) == 0 ){
-        GPIOC->ODR  |=  (0x1 << 13);
+        //LED ON
+        GPIOC->BSRR = (0x1 << 13);
     } else{
-        GPIOC->ODR  &= ~(0x1 << 13);
+        //LED OFF
+        GPIOC->BSRR = (0x1 << (13 + 16));
     }
 
     /*PC14 -- PA5*/
     if( (GPIOA->IDR & (0X1 << 5)) == 0 ){
-        GPIOC->ODR  |=  (0x1 << 14);
+        //LED ON
+        GPIOC->BSRR = (0x1 << 14);
     } else{
-        GPIOC->ODR  &= ~(0x1 << 14);
+        //LED OFF
+        GPIOC->BSRR = (0x1 << (14 + 16));
     }
 
     /*PC15 -- PA6*/
     if( (GPIOA->IDR & (0X1 << 6)) == 0 ){
-        GPIOC->ODR  |=  (0x1 << 15);
+        //LED ON
+        GPIOC->BSRR = (0x1 << 15);
     } else{
-        GPIOC->ODR  &= ~(0x1 << 15);
+        //LED OFF
+        GPIOC->BSRR = (0x1 << (15 + 16));
     }
 }
 
