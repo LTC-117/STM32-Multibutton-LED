@@ -10,72 +10,9 @@
  */
 
 #include "stm32f103c8t6.h"
+#include "setup.h"
 #include <stdint.h>
-
-void setup(){
-    //Init RCC for:             GPIOA        GPIOC
-    RCC_APB2ENR     |=      ( (0x1 << 2) | (0x1 << 4) );
-
-    /*Output ports config*/
-
-    //PC13
-    GPIOC->CRH      &=     ~( 0xF << 20 );
-    GPIOC->CRH      |=      ( 0x1 << 20 );
-
-    //PC14
-    GPIOC->CRH      &=     ~( 0xF << 24 );
-    GPIOC->CRH      |=      ( 0x1 << 24 );
-
-    //PC15
-    GPIOC->CRH      &=     ~( 0xF << 28 );
-    GPIOC->CRH      |=      ( 0x1 << 28 );
-
-    /*Input ports config*/
-
-    //PA4
-    GPIOA->CRL      &=     ~( 0xF << 16 );
-    GPIOA->CRL      |=      ( 0x8 << 16 );
-    GPIOA->ODR      |=      ( 0x1 <<  4 );
-
-    //PA5
-    GPIOA->CRL      &=     ~( 0xF << 20 );
-    GPIOA->CRL      |=      ( 0x8 << 20 );
-    GPIOA->ODR      |=      ( 0x1 <<  5 );
-
-    //PA6
-    GPIOA->CRL      &=     ~( 0xF << 24 );
-    GPIOA->CRL      |=      ( 0x8 << 24 );
-    GPIOA->ODR      |=      ( 0x1 <<  6 );
-}
-
-void loop(){
-    /*PC13 -- PA4*/
-    if( (GPIOA->IDR & (0X1 << 4)) == 0 ){
-        //LED ON
-        GPIOC->BSRR = (0x1 << 13);
-    } else{
-        //LED OFF
-        GPIOC->BSRR = (0x1 << (13 + 16));
-    }
-
-    /*PC14 -- PA5*/
-    if( (GPIOA->IDR & (0X1 << 5)) == 0 ){
-        //LED ON
-        GPIOC->BSRR = (0x1 << 14);
-    } else{
-        //LED OFF
-        GPIOC->BSRR = (0x1 << (14 + 16));
-    }
-
-    /*PC15 -- PA6*/
-    if( (GPIOA->IDR & (0X1 << 6)) == 0 ){
-        //LED ON
-        GPIOC->BSRR = (0x1 << 15);
-    } else{
-        //LED OFF
-        GPIOC->BSRR = (0x1 << (15 + 16));
-    }
-}
+#include "loop.h"
 
 int main(){
     setup();
